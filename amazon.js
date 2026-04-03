@@ -752,7 +752,7 @@ function addItemToContainer() {
 // Add To Cart Behavior 
 
 
-document.querySelectorAll('.cart > button')
+document.querySelectorAll('.card > button')
 .forEach((button) => {
   button.addEventListener('click', () => {
     const productId = button.dataset.productId;
@@ -774,5 +774,14 @@ document.querySelectorAll('.cart > button')
         });
 
       }
+
+      cartItemsCount = 0;
+      // Calculate Items Quantity
+      cart.forEach(item => {
+        cartItemsCount += item.quantity;
+      });
+
+      // Add The Quantity To the Cart Element
+      cartItemsSpan.textContent = cartItemsCount;
     });
   });
