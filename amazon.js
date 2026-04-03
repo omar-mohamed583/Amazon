@@ -152,7 +152,7 @@ const products = [
   },
   {
     id: "5968897c-4d27-4872-89f6-5bcb052746d7",
-    image: "images/products/women-chiffon-beachwear-coverup-black.jpg",
+    image: "images/products/knit-athletic-sneakers-gray.jpg",
     name: "Women's Chiffon Beachwear Cover Up - Black",
     rating: {
       stars: 4.5,
@@ -660,7 +660,7 @@ const products = [
 ];
 const cart = [];
 const addToCart = document.querySelector('.card > button');
-const cartItemsSpan = document.querySelector('.cart span').innerHTML;
+const cartItemsSpan = document.querySelector('.cart span');
 let cartItemsCount = 0;
 const addItem = document.querySelector('.add');
 const cardContainer = document.querySelector('.container');
@@ -672,10 +672,10 @@ products.forEach((product) => {
     <img src="https://supersimple.dev/projects/amazon/${product.image}" alt="${product.name}">
     <p>${product.name}</p>
     <div class="rate">
-      <img src="https://supersimple.dev/projects/amazon/images/ratings/rating-${product.rating.stars * 10}.png" alt="stars-img">
+      <img src="https://supersimple.dev/projects/amazon/images/ratings/rating-${product.rating.stars === 4.5 ? 45 : product.rating.stars}.png" alt="stars-img">
       <span>${product.rating.count}</span>
     </div>
-    <span>$${product.priceCents / 100}</span>
+    <span>$${(product.priceCents / 100).toFixed(2)}</span>
     <select>
         <option value="1">1</option>
         <option value="2">2</option>
@@ -688,7 +688,7 @@ products.forEach((product) => {
         <option value="9">9</option>
         <option value="10">10</option>
     </select>
-    <button>Add To Cart</button>
+    <button data-product-id="${product.id}">Add To Cart</button>
 </div>`;
 
   cardContainer.innerHTML += html;
@@ -707,13 +707,13 @@ function addItemToContainer() {
   const name = document.querySelector('#product-desc').value;
   const stars = Number(document.querySelector('#star-nums').value);
   const count = Number(document.querySelector('#star-count').value) || 0;
-  const priceCents = (Number(document.querySelector('#price').value)).toFixed(2) * 100;
+  const priceCents = (Number(document.querySelector('#price').value).toFixed(2)) * 100;
   const html = `
 <div class="card">
     <img src="https://supersimple.dev/projects/amazon/${image}" alt="${name}">
     <p>${name}</p>
     <div class="rate">
-      <img src="https://supersimple.dev/projects/amazon/images/ratings/rating-${stars * 10}.png" alt="stars-img">
+      <img src="https://supersimple.dev/projects/amazon/images/ratings/rating-${stars === 4.5 ? 45 : stars}.png" alt="stars-img">
       <span>${count}</span>
     </div>
     <span>$${priceCents / 100}</span>
@@ -732,6 +732,7 @@ function addItemToContainer() {
     <button>Add To Cart</button>
 </div>`;
 
+  cardContainer.innerHTML += html;
   products.push({
     image,
     name,
@@ -742,18 +743,36 @@ function addItemToContainer() {
     priceCents
   });
 
-  cardContainer.innerHTML += html;
-
   const button = document.querySelector('.add-item');
   if (button) button.remove();
   cardContainer.innerHTML += '<button class="add-item" aria-label="Add Product">+</button>';
+  console.log(products)
 }
 
-addItem.addEventListener('click', () => {
-  if (document.querySelector('#product-desc').value && document.querySelector('#price').value && document.querySelector('#star-nums').value && document.querySelector('#link-input').value) {
-    addItemToContainer();
-    dialog.close();
-  }
-});
-
 // Add To Cart Behavior 
+
+
+document.querySelectorAll('.cart > button')
+.forEach((button) => {
+  button.addEventListener('click', () => {
+    const productId = button.dataset.productId;
+    let itemMatches;
+
+      cart.forEach(item => {
+        if (productId === item.productId) {
+          itemMatches = item;
+        }
+      });
+
+      if (itemMatches) {
+        itemMatches.quantity += 1;
+
+      } else {
+        cart.push({
+          productId,
+          quantity: 1
+        });
+
+      }
+    });
+  });
