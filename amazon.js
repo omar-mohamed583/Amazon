@@ -676,7 +676,7 @@ products.forEach((product) => {
       <span>${product.rating.count}</span>
     </div>
     <span>$${(product.priceCents / 100).toFixed(2)}</span>
-    <select>
+    <select class="js-${product.id}">
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -757,6 +757,7 @@ document.querySelectorAll('.card > button')
   button.addEventListener('click', () => {
     const productId = button.dataset.productId;
     let itemMatches;
+    const quantity = Number(document.querySelector(`.js-${productId}`).value);
 
       cart.forEach(item => {
         if (productId === item.productId) {
@@ -765,12 +766,12 @@ document.querySelectorAll('.card > button')
       });
 
       if (itemMatches) {
-        itemMatches.quantity += 1;
+        itemMatches.quantity += quantity;
 
       } else {
         cart.push({
           productId,
-          quantity: 1
+          quantity
         });
 
       }
