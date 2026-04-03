@@ -153,6 +153,7 @@ main .container {
 .card {
   display: grid;
   padding: 1.5rem;
+  position: relative;
   gap: .6rem;
   border: 1px solid #ddd;
 }
@@ -216,6 +217,7 @@ select {
 .card button {
   background-color: hsl(50, 100%, 54%);
   border-radius: 18px;
+  anchor-name: --btn;
   padding: .6rem 1rem;
   font-size: 1.09rem;
   font-weight: 500;
@@ -333,4 +335,18 @@ dialog label:has(+ input[required]):after {
   aspect-ratio: 1;
   border-radius: 50%;
   background-color: #eee7e7;
+}
+
+[class^="added-to-cart-"] {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  position-anchor: --btn;
+  left: 5%;
+  left: calc(anchor(left) + 2px);
+  top: 84%;
+  top: calc(anchor(top) - 2rem);
+  color: rgb(9, 122, 9);
+  font-size: 1.1rem;
+  transition: 400ms;
 }

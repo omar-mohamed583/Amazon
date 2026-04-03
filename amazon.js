@@ -15,6 +15,26 @@ const products = [
     ]
   },
   {
+    id: "rr3342343e-32443432rff-243244ff-555uy",
+    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
+    name: "Backpack",
+    rating: {
+      stars: 4,
+      count: 80
+    },
+    priceCents: 2050, 
+  },
+  {
+    id: "tt4dd2kk455-3432lr320-2enn42324-334mr2",
+    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
+    name: "Umbrella",
+    rating: {
+      stars: 4,
+      count: 80
+    },
+    priceCents: 3050, 
+  },
+  {
     id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
     image: "images/products/intermediate-composite-basketball.jpg",
     name: "Intermediate Size Basketball",
@@ -688,6 +708,7 @@ products.forEach((product) => {
         <option value="9">9</option>
         <option value="10">10</option>
     </select>
+    <div class="added-to-cart-${product.id}">✅ Added</div>
     <button data-product-id="${product.id}">Add To Cart</button>
 </div>`;
 
@@ -729,10 +750,12 @@ function addItemToContainer() {
         <option value="9">9</option>
         <option value="10">10</option>
     </select>
+    <div class="added-to-cart-${id}">✅ Added</div>
     <button>Add To Cart</button>
 </div>`;
 
   cardContainer.innerHTML += html;
+  // ID Still Not Added
   products.push({
     image,
     name,
@@ -751,11 +774,12 @@ function addItemToContainer() {
 
 // Add To Cart Behavior 
 
+let time;
 
 document.querySelectorAll('.card > button')
 .forEach((button) => {
   button.addEventListener('click', () => {
-    const productId = button.dataset.productId;
+    const {productId} = button.dataset;
     let itemMatches;
     const quantity = Number(document.querySelector(`.js-${productId}`).value);
 
@@ -784,5 +808,23 @@ document.querySelectorAll('.card > button')
 
       // Add The Quantity To the Cart Element
       cartItemsSpan.textContent = cartItemsCount;
+
+
+      // Added Message Behavior
+      const addedMsg = document.querySelector(`.added-to-cart-${productId}`);
+      addedMsg.style.visibility = 'visible';
+      addedMsg.style.opacity = '1';
+      if (time) {
+        clearTimeout(time)
+        time = setTimeout(() => {
+          addedMsg.style.visibility = 'hidden';
+          addedMsg.style.opacity = '0';
+        }, 1000);
+      } else {
+        time = setTimeout(() => {
+          addedMsg.style.visibility = 'hidden';
+          addedMsg.style.opacity = '0';
+        }, 1000);
+      }
     });
   });
