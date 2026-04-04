@@ -1,6 +1,6 @@
 import {products as products} from './products.js';
 const cart = [];
-const addToCart = document.querySelector('.card > button');
+const cardBtns = document.querySelectorAll('.card > button');
 const cartItemsSpan = document.querySelector('.cart span');
 let cartItemsCount = 0;
 const addItem = document.querySelector('.add');
@@ -97,7 +97,7 @@ function addItemToContainer() {
 
 let time;
 
-addToCart
+cardBtns
 .forEach((button) => {
   button.addEventListener('click', () => {
     const {productId} = button.dataset;
