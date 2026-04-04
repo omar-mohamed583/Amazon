@@ -1,6 +1,5 @@
 import {products as products} from './products.js';
 const cart = [];
-const cardBtns = document.querySelectorAll('.card > button');
 const cartItemsSpan = document.querySelector('.cart span');
 let cartItemsCount = 0;
 const addItem = document.querySelector('.add');
@@ -31,10 +30,10 @@ products.forEach((product) => {
     </select>
     <div class="added-to-cart-${product.id}">✅ Added</div>
     <button data-product-id="${product.id}">Add To Cart</button>
-</div>`;
-
-  cardContainer.innerHTML += html;
-});
+    </div>`;
+    
+    cardContainer.innerHTML += html;
+  });
 
 cardContainer.innerHTML += '<button class="add-item" aria-label="Add Product">+</button>';
 
@@ -51,16 +50,16 @@ function addItemToContainer() {
   const count = Number(document.querySelector('#star-count').value) || 0;
   const priceCents = (Number(document.querySelector('#price').value).toFixed(2)) * 100;
   const html = `
-<div class="card">
-    <img src="https://supersimple.dev/projects/amazon/${image}" alt="${name}">
-    <p>${name}</p>
-    <div class="rate">
-      <img src="https://supersimple.dev/projects/amazon/images/ratings/rating-${stars === 4.5 ? 45 : stars}.png" alt="stars-img">
-      <span>${count}</span>
-    </div>
-    <span>$${priceCents / 100}</span>
-    <select>
-        <option value="1">1</option>
+  <div class="card">
+  <img src="https://supersimple.dev/projects/amazon/${image}" alt="${name}">
+  <p>${name}</p>
+  <div class="rate">
+  <img src="https://supersimple.dev/projects/amazon/images/ratings/rating-${stars === 4.5 ? 45 : stars}.png" alt="stars-img">
+  <span>${count}</span>
+  </div>
+  <span>$${priceCents / 100}</span>
+  <select>
+  <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
         <option value="4">4</option>
@@ -95,10 +94,11 @@ function addItemToContainer() {
 
 // Add To Cart Behavior 
 
+const cardBtns = document.querySelectorAll('.card > button');
 let time;
 
 cardBtns
-.forEach((button) => {
+  .forEach((button) => {
   button.addEventListener('click', () => {
     const {productId} = button.dataset;
     let itemMatches;
