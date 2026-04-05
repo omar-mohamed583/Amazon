@@ -1,4 +1,4 @@
-import {products as products} from './products.js';
+import {products} from './products.js';
 const cart = [];
 const cartItemsSpan = document.querySelector('.cart span');
 let cartItemsCount = 0;
