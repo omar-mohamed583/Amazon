@@ -350,6 +350,7 @@ dialog label:has(+ input[required]):after {
   place-content: center;
   width: 1.5rem;
   aspect-ratio: 1;
+  line-height: 1;
   border-radius: 50%;
   background-color: #eee7e7;
 }

@@ -1,7 +1,8 @@
-import {products} from '../Data/products.js';
-export const cart = [];
+import {products, cart, calcPrice } from '../Data/data.js';
 const cartItemsSpan = document.querySelector('.cart span');
 let cartItemsCount = 0;
+cart.forEach(item => cartItemsCount += item.quantity);
+if (cartItemsSpan) cartItemsSpan.innerHTML = cartItemsCount;
 const addItem = document.querySelector('.add');
 const cardContainer = document.querySelector('.card-container');
 
@@ -10,12 +11,12 @@ function initializeShop() {
     const html = `
 <div class="card">
     <img src="https://supersimple.dev/projects/amazon/${product.image}" alt="${product.name}">
-    <p>${product.name}</p>
+    <p title="${product.name}">${product.name}</p>
     <div class="rate">
       <img src="https://supersimple.dev/projects/amazon/images/ratings/rating-${product.rating.stars === 4.5 ? 45 : product.rating.stars}.png" alt="stars-img">
       <span>${product.rating.count}</span>
     </div>
-    <span>$${(product.priceCents / 100).toFixed(2)}</span>
+    <span>$${calcPrice(product.priceCents)}</span>
     <select class="js-${product.id}">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -44,6 +45,7 @@ function initializeShop() {
   });
 
   function addItemToContainer() {
+    const id = `custom-${Date.now()}`;
     const image = document.querySelector('#link-input').value;
     const name = document.querySelector('#product-desc').value;
     const stars = Number(document.querySelector('#star-nums').value);
@@ -75,8 +77,8 @@ function initializeShop() {
   </div>`;
 
     cardContainer.innerHTML += html;
-    // ID Still Not Added
     products.push({
+      id,
       image,
       name,
       rating: {
@@ -150,10 +152,6 @@ function initializeShop() {
     });
 }
 
-console.log('cardContainer element:', cardContainer);
 if (cardContainer) {
-  console.log('Initializing shop...');
   initializeShop();
-} else {
-  console.log('Cart page detected - shop NOT initialized');
 }

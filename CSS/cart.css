@@ -64,7 +64,7 @@ header {
 
 @media screen and (max-width: 1299px) {
   .container {
-    padding: clamp(.5rem,1.4vh,1.5rem) clamp(.5rem,2vw,1rem);
+    padding: clamp(.5rem,3.4vh,1.5rem) clamp(.5rem,2vw,1rem);
   }
 }
 
@@ -157,7 +157,7 @@ aside h2 {
   line-height: 1;
   transition: background-color 300ms ease-in , color 300ms;
 
-  &:hover {
+  &:hover , &:focus-visible {
     background-color: #131921;
     color: #fff;
   }
@@ -167,9 +167,10 @@ aside h2 {
   grid-row: 1;
   
   .products {
-    display: grid;
+    display: flex;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+    flex-flow: row wrap;
+    justify-content: center;
   }
 
   & h2 {
@@ -181,7 +182,10 @@ aside h2 {
 .empty-cart {
   display: flex;
   gap: .9rem;
+  height: stretch;
   flex-flow: column;
+  align-items: center;
+  justify-content: center;
 
   & a {
     text-decoration: none;
@@ -194,7 +198,7 @@ aside h2 {
     transition: background-color 350ms ease-out;
     border-radius: 8px;
 
-    &:hover {
+    &:hover , &:focus-visible {
       background-color: hsl(from var(--main-used-color) h s l / .7);
     }
   }
@@ -204,25 +208,48 @@ aside h2 {
   border: 1px solid #ddd;
   border-radius: 6px;
   padding: 1.5rem 1rem;
-  transition: translate 300ms;
+  width: min(312px,100%);
+  max-width: 520px;
+  flex-grow: 1;
+  transition: translate 300ms , box-shadow 300ms;
 
-  &:hover {
-    translate: 0 -.5rem; 
+  @media (pointer: fine) {
+    cursor: pointer;
+    &:hover , &:focus-visible {
+      translate: 0 -.2rem 0; 
+      box-shadow: 0 0 15px 1px #ddd;
+    }
   }
 
   & .card-content {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     gap: 1.5rem .2rem;
-    justify-content: space-around;
 
     img {
       width: clamp(6rem,6vw,8rem);
       aspect-ratio: 1;
       object-fit: contain;
-      align-self: flex-start;
+      align-self: center;
     }
   }
+
+  .card-details div {
+    justify-content: center;
+  }
+
+  .item-name {
+    min-height: 4ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-align: center;
+    text-align-last: center;
+  }
+
 }
 
 @media (max-width: 1145px) {
@@ -254,26 +281,6 @@ aside h2 {
         align-items: center;
       }
     }
-
-    .card {
-      max-width: min(100%, 19rem);
-      
-      .card-content {
-        flex-flow: column;
-
-        .item-name {
-          text-align: center;
-        }
-
-        img {
-          align-self: center;
-        }
-      }
-
-      .card-details div {
-        justify-content: center;
-      }
-    }
   }
 }
 
@@ -300,17 +307,28 @@ aside h2 {
     background-color: #fff;
     border: 1px solid #c9c9c9;
     cursor: pointer;
-    transition: background-color 300ms;
+    transition: background-color 300ms , color 300ms;
 
-    &:hover {
+    &:hover , &:focus-visible {
       background-color: var(--main-used-color);
     }
   }
+
+  .delete-quantity:hover , .delete-quantity:focus-visible {
+    background-color: crimson;
+    color: white;
+  }
 }
+
 
 .card-details div:has( > button) {
   display: flex;
   gap: 1rem;
+}
+
+.items-price {
+  font-weight: 700;
+  font-size: (.9rem,4vw,1.1rem);
 }
 
 .item-price {
@@ -321,7 +339,7 @@ aside h2 {
 
 .quantity {
   font-size: 1.1rem; 
-  
+
   span {
     color: #2484d3;
     cursor: pointer;
@@ -362,5 +380,76 @@ aside h2 {
 }
 
 .date-option h4 {
-  font-size: 1.2rem;
+  font-size: clamp(1rem,3vw,1.2rem);
+}
+
+.item-price,
+.quantity,
+.date-option {
+  margin-inline-start: 1.8rem;
+} 
+
+
+/* Update Products Quantity Dialog */
+
+dialog[open] {
+  position: fixed;
+  inset: 50%;
+  translate: -50% -50% 0;
+  padding: 1.5rem;
+  background-color: #fff;
+  border: 1px solid #4d4d4d;
+  box-shadow: 0 0 22px 0 #00000063;
+  display: flex;
+  flex-flow: column;
+  border-radius: 6px;
+  z-index: 10000000;
+  
+  & .close-modal {
+    display: flex;
+    border: 0;
+    align-self: flex-end;
+    cursor: pointer;
+    flex-wrap: wrap;
+    place-content: center;
+    width: 1.5rem;
+    aspect-ratio: 1;
+    line-height: 1;
+    border-radius: 50%;
+    background-color: #eee7e7;
+  }
+
+  & form {
+    display: flex;
+    flex-flow: column;
+    width: clamp(300px,70vw,500px);
+    
+    label {
+      margin-bottom: .5rem;
+    }
+
+    input {
+      margin-bottom: .8rem;
+      padding: .4rem;
+      border-radius: 8px;
+    }
+
+    button {
+      border: 0;
+      padding: .5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 1px;
+      border: 1px solid var(--header-background-color);
+      background-color: var(--header-background-color);
+      color: #fff;
+      transition: background-color 300ms , color 300ms;
+      
+      &:hover , &:focus-visible {
+        background-color: #ffffff;
+        color: var(--text-color);
+      }
+    }
+  }
 }

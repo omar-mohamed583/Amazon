@@ -64,6 +64,25 @@
 
       <!-- Section Contains Order Details And Products -->
       <section class="added-products">
+
+        <dialog id="updateQuantity">
+          <button onclick="updateQuantity.close()" class="close-modal" aria-label="close modal">&times;</button>
+          <form method="dialog">
+
+            <label for="prod-name" data-product-id="">Product Name</label>
+            <input type="text" class="product-name" readonly id="prod-name">
+
+            <label for="prod-price">Product Price</label>
+            <input type="text" class="price" readonly id="prod-price">
+
+            <label for="quantity">Update Quantity</label>
+            <input type="number" name="quantity" id="quantity">
+
+            <button type="submit">Update</button>
+
+          </form>
+        </dialog>
+
         <h2>Review Your Order</h2>
 
         <div class="products">
