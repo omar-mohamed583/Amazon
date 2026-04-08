@@ -1,10 +1,9 @@
-import {calcPrice, cart, products} from '../Data/data.js';
+import {calcPrice, cart, products, saveToStorage} from '../Data/data.js';
 
 const productContainer = document.querySelector('.products');
 const itemsCount = document.querySelector('.checkout > output');
 const emptyCartDiv = document.querySelector('.empty-cart');
 const updateQuantity = document.querySelector('#updateQuantity');
-const itemsCountSpan = document.querySelector('.items-count');
 
 function updateInfo(action = '') {
   // Update The Display Of Empty Cart  
@@ -41,6 +40,7 @@ function updateInfo(action = '') {
     })
     updateItemsQuantity();
     updatePrices();
+    saveToStorage();
   }
 };
 
@@ -159,7 +159,7 @@ function updateForm(id) {
 
 submitUpdate.addEventListener('click' , () => {
   if (quantityInput.value) {
-    updateInfo('dialog')
+    updateInfo('dialog');
   }
 });
 
@@ -170,6 +170,7 @@ function deleteItems(id) {
   }
   updateInfo();
   createDom()
+  saveToStorage();
 }
 
 function updatePrices() {

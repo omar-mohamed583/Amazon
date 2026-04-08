@@ -1,4 +1,4 @@
-import {products, cart, calcPrice } from '../Data/data.js';
+import {products, cart, calcPrice, saveToStorage} from '../Data/data.js';
 const cartItemsSpan = document.querySelector('.cart span');
 let cartItemsCount = 0;
 cart.forEach(item => cartItemsCount += item.quantity);
@@ -113,12 +113,14 @@ function initializeShop() {
 
         if (itemMatches) {
           itemMatches.quantity += quantity;
+          saveToStorage();
 
         } else {
           cart.push({
             productId,
             quantity
           });
+          saveToStorage();
 
         }
 
