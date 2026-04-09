@@ -511,7 +511,7 @@ export const products = [
   },
   {
     id: "a45cfa0a-66d6-4dc7-9475-e2b01595f7d7",
-    image: "images/products/women-french-terry-fleece-jogger-camo.jpg",
+    image: "images/products/vanity-mirror-silver.jpg",
     name: "Women's Fleece Jogger Sweatpant",
     rating: {
       stars: 4.5,
