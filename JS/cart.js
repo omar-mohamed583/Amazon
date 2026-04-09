@@ -1,6 +1,7 @@
 import {calcPrice, cart, products, saveToStorage} from '../Data/data.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions} from '../Data/deliveryOption.js';
+import {deliveryOptions, updateDeliveryOption} from '../Data/deliveryOption.js';
+import {submittedOrders} from '../Data/submitedOrders.js';
 
 const productContainer = document.querySelector('.products');
 const itemsCount = document.querySelector('.checkout > output');
@@ -77,7 +78,7 @@ function createDom() {
 
     let html = `
       <div class="card">
-        <h3>Delivery Date: <span class="delivery-date">${dateString}</span></h3>
+        <h3>Delivery Date: <span class="delivery-date" data-id="${obj.id}">${dateString}</span></h3>
       
         <div class="card-content">
           <img src="https://supersimple.dev/projects/amazon/${obj.image}" alt="item png">
@@ -101,7 +102,7 @@ function createDom() {
             <h4>Choose a delivery option:</h4>
 
             ${deliveryOptionsHTML(obj,cartItem)}
-            
+
           </div>
       
         </div>
@@ -155,7 +156,8 @@ function deliveryOptionsHTML(obj,cartItem) {
 
     html+= `
             <div>
-              <input type="radio" value="Wednesday, April 15" id="date-input-${obj.id}-${count}" ${isChecked ? 'checked' : ''} name="date-input-${obj.id}">
+              <input type="radio" value="Wednesday, April 15" id="date-input-${obj.id}-${count}" ${isChecked ? 'checked' : ''} data-count="${count}" data-product-id="${obj.id}"
+              name="date-input-${obj.id}">
               <label for="date-input-${obj.id}-${count}">
                 ${dateString}
                 <span>${priceString} Shipping</span>
@@ -192,7 +194,7 @@ function updateForm(id) {
 }
 
 submitUpdate.addEventListener('click' , () => {
-  if (quantityInput.value) {
+  if (quantityInput.value > 0) {
     updateInfo('dialog');
   }
 });
@@ -203,7 +205,7 @@ function deleteItems(id) {
     cart.splice(index, 1);
   }
   updateInfo();
-  createDom()
+  document.querySelector(`.card:has([data-id="${id}"])`).remove();
   saveToStorage();
 }
 
@@ -223,7 +225,23 @@ function updatePrices() {
     });
   });
   itemsPriceSpan.innerHTML = `$${calcPrice(itemsPrice)}`;
+
+  let totalTaxCents = 0;
+  cart.forEach(item => {
+    totalTaxCents += deliveryOptions[Number(item.deliveryOptionId) - 1].priceCents;
+  });
+
+  itemsShippingSpan.innerHTML = `$${calcPrice(totalTaxCents)}`;
+
+  totalPriceNoTaxSpan.innerHTML = `$${calcPrice(itemsPrice + totalTaxCents)}`;
+
+  let pricePercentage = (itemsPrice + totalTaxCents) * (10 / 100)
+  taxPriceSpan.innerHTML = `$${calcPrice(pricePercentage)}`;
+
+  totalPriceSpan.innerHTML = `$${calcPrice(pricePercentage + (itemsPrice + totalTaxCents))}`;
 }
+
+updatePrices();
 
 const errorDiv = document.querySelector('.cart-error');
 let time;
@@ -251,3 +269,23 @@ document.querySelector('.place-order').addEventListener('click', () => {
     }, 100)
   }, 1400);
 });
+
+document.querySelectorAll('.date-option div')
+  .forEach(element => {
+    element.addEventListener('click', () => {
+      const {count, productId} = element.querySelector('input').dataset;
+      updateDeliveryOption(productId,count);
+      cart.forEach(item => {
+        document.querySelectorAll('.delivery-date').forEach( one => {
+          if ( item.productId === one.dataset.id ) {
+            const date = (dayjs().add(
+              (deliveryOptions.find(option => option.id === item.deliveryOptionId).deliveryDays)  ,
+              'days'
+            )).format('dddd, MMMM D');
+            one.innerHTML = date;
+            updatePrices();
+          };
+        });
+      });
+    })
+  });

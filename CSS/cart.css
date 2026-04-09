@@ -118,7 +118,7 @@ aside {
   }
 }
 
-aside p {
+aside p , aside span , aside output {
   font-size: clamp(1rem,2vw,1.1rem);
   font-weight: 500;
 }
@@ -139,10 +139,13 @@ aside h2 {
 .order-total {
   border-top: 1px solid #ddd;
   padding-block: .9rem;
+  display: flex;
+  justify-content: space-between;
 
   * {
     color: rgb(177, 39, 4);
     font-weight: 700;
+    display: inline-block;
     font-size: clamp(1.1rem,2vw,1.2350rem);
   }
 }
@@ -432,6 +435,7 @@ dialog[open] {
       margin-bottom: .8rem;
       padding: .4rem;
       border-radius: 8px;
+      border: 1.5px solid #000;
     }
 
     button {
