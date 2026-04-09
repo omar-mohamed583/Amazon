@@ -315,7 +315,7 @@ export const products = [
   },
   {
     id: "b0f17cc5-8b40-4ca5-9142-b61fe3d98c85",
-    image: "images/products/women-stretch-popover-hoodie-black.jpg",
+    image: "images/products/sky-flower-stud-earrings.webp",
     name: "Women's Stretch Popover Hoodie",
     rating: {
       stars: 4.5,
