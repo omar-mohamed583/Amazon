@@ -190,3 +190,16 @@ function updatePrices() {
   });
   itemsPriceSpan.innerHTML = `$${calcPrice(itemsPrice)}`;
 }
+
+const errorDiv = document.querySelector('.cart-error');
+document.querySelector('.place-order').addEventListener('click', () => {
+  if (cart.length) window.location.href = '../HTML/orders.html';
+  else {
+    errorDiv.style.translate = '0 0';
+    errorDiv.querySelector(' & > div').style.scale = '0 1';
+    setTimeout(() => {
+      errorDiv.style.translate = '102% 0';
+      errorDiv.querySelector(' & > div').style.scale = '1 1';
+    }, 1300);
+  }
+});

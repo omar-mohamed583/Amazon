@@ -453,3 +453,33 @@ dialog[open] {
     }
   }
 }
+
+.cart-error {
+  position: fixed;
+  top: 5rem;
+  display: flex;
+  flex-flow: column;
+  gap: 1.2rem;
+  right: 0;
+  background-color: rgb(177, 39, 4);
+  padding: 1.5rem 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 8px 0 0 8px;
+  border: 1px solid #4d4d4d;
+  z-index: 100000000000;
+  transition: translate 200ms ease-in-out;
+  translate: 102% 0;
+
+  div {
+    transform-origin: left;
+    width: calc(100% + 1.97rem);
+    height: 5px;
+    background-color: #62ca38;
+    scale: 1 1;
+    transition: scale 1.5s linear;
+    border-radius: 8px;
+    translate: -.9rem;
+  }
+}
