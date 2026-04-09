@@ -118,7 +118,8 @@ function initializeShop() {
         } else {
           cart.push({
             productId,
-            quantity
+            quantity,
+            deliveryOptionId: '1'
           });
           saveToStorage();
 

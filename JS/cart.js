@@ -1,4 +1,6 @@
 import {calcPrice, cart, products, saveToStorage} from '../Data/data.js';
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+import {deliveryOptions} from '../Data/deliveryOption.js';
 
 const productContainer = document.querySelector('.products');
 const itemsCount = document.querySelector('.checkout > output');
@@ -47,18 +49,35 @@ function updateInfo(action = '') {
 
 function createDom() {
   productContainer.innerHTML = '';
+
   cart.forEach(cartItem => {
     let obj;
-    let deliveryDate = 'Wednesday, April 15';
     const productId = cartItem.productId;
 
     products.forEach(product => {
       if (product.id === productId) obj = product; 
     });
 
+    const deliveryOptionId = cartItem.deliveryOptionId;
+    let matchingObj;
+
+    deliveryOptions.forEach(option => {
+      if (option.id === deliveryOptionId) matchingObj = option;
+    });
+    const today = dayjs();
+
+    const deliveryDate = today.add(
+      matchingObj.deliveryDays,
+      'days'
+    );
+
+    const dateString = deliveryDate.format(
+      'dddd, MMMM D'
+    );
+
     let html = `
       <div class="card">
-        <h3>Delivery Date: <span class="delivery-date">${deliveryDate}</span></h3>
+        <h3>Delivery Date: <span class="delivery-date">${dateString}</span></h3>
       
         <div class="card-content">
           <img src="https://supersimple.dev/projects/amazon/${obj.image}" alt="item png">
@@ -80,30 +99,8 @@ function createDom() {
       
           <div class="date-option">
             <h4>Choose a delivery option:</h4>
-      
-            <div>
-              <input type="radio" value="Wednesday, April 15" id="date-input-${obj.id}-1" checked name="date-input-${obj.id}">
-              <label for="date-input-${obj.id}-1">
-                Wednesday, April 15
-                <span>FREE Shipping</span>
-              </label>
-            </div>
-      
-            <div>
-              <input type="radio" value="Thursday, April 9" name="date-input-${obj.id}" id="date-input-${obj.id}-2">
-              <label for="date-input-${obj.id}-2">
-                Thursday, April 9
-                <span>$4.99 - Shipping</span>
-              </label>
-            </div>
-            
-            <div>
-              <input type="radio" value="Tuesday, April 7" name="date-input-${obj.id}" id="date-input-${obj.id}-3">
-              <label for="date-input-${obj.id}-3">
-                Tuesday, April 7
-                <span>$9.99 - Shipping</span>
-              </label>
-            </div>
+
+            ${deliveryOptionsHTML(obj,cartItem)}
             
           </div>
       
@@ -133,6 +130,43 @@ function createDom() {
 
 createDom();
 updateInfo();
+
+function deliveryOptionsHTML(obj,cartItem) {
+  let html = '';
+  let count = 1;
+
+  deliveryOptions.forEach(option => {
+    const today = dayjs();
+
+    const deliveryDate = today.add(
+      option.deliveryDays,
+      'days'
+    );
+
+    const dateString = deliveryDate.format(
+      'dddd, MMMM D'
+    );
+
+    const priceString = option.priceCents === 0 
+    ? 'FREE'  
+    : `$${calcPrice(option.priceCents)} -`;
+
+    const isChecked = option.id === cartItem.deliveryOptionId;
+
+    html+= `
+            <div>
+              <input type="radio" value="Wednesday, April 15" id="date-input-${obj.id}-${count}" ${isChecked ? 'checked' : ''} name="date-input-${obj.id}">
+              <label for="date-input-${obj.id}-${count}">
+                ${dateString}
+                <span>${priceString} Shipping</span>
+              </label>
+            </div>
+            `;
+    count++;
+  });
+
+  return html;
+}
 
 const submitUpdate = document.querySelector('dialog button[type="submit"]')
 const quantityInput = document.querySelector('dialog #quantity');
@@ -192,14 +226,28 @@ function updatePrices() {
 }
 
 const errorDiv = document.querySelector('.cart-error');
+let time;
 document.querySelector('.place-order').addEventListener('click', () => {
-  if (cart.length) window.location.href = '../HTML/orders.html';
-  else {
-    errorDiv.style.translate = '0 0';
-    errorDiv.querySelector(' & > div').style.scale = '0 1';
-    setTimeout(() => {
-      errorDiv.style.translate = '102% 0';
-      errorDiv.querySelector(' & > div').style.scale = '1 1';
-    }, 1300);
+  if (cart.length) {
+    window.location.href = '../HTML/orders.html';
+    return;
   }
+
+  if (time) {
+    clearTimeout(time);
+  }
+
+  // Show the error message
+  errorDiv.style.translate = '0 0';
+  const innerDiv = errorDiv.querySelector('div');
+  innerDiv.style.scale = '0 1';
+
+  time = setTimeout(() => {
+    errorDiv.style.translate = '102% 0';
+    innerDiv.style.transition = 'scale 0ms 30ms';
+    innerDiv.style.scale = '1 1';
+    setTimeout( () => {
+      innerDiv.style.transition = 'scale 1.4s linear';
+    }, 100)
+  }, 1400);
 });

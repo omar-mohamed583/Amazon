@@ -206,7 +206,7 @@ aside h2 {
 
 .card {
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 9px;
   padding: 1.5rem 1rem;
   width: min(312px,100%);
   max-width: 520px;
@@ -469,7 +469,7 @@ dialog[open] {
   border-radius: 8px 0 0 8px;
   border: 1px solid #4d4d4d;
   z-index: 100000000000;
-  transition: translate 200ms ease-in-out;
+  transition: translate 100ms ease-in-out;
   translate: 102% 0;
 
   div {
@@ -478,7 +478,7 @@ dialog[open] {
     height: 5px;
     background-color: #62ca38;
     scale: 1 1;
-    transition: scale 1.5s linear;
+    transition: scale 1.4s linear;
     border-radius: 8px;
     translate: -.9rem;
   }
