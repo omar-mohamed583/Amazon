@@ -91,6 +91,7 @@ main {
 }
 
 aside {
+  text-overflow: ellipsis;
   height: fit-content;
   display: grid;
   gap: .7rem;
@@ -120,7 +121,7 @@ aside {
 
 aside p , aside span , aside output {
   font-size: clamp(1rem,2vw,1.1rem);
-  font-weight: 500;
+  font-weight: 700;
 }
 
 aside h2 {
@@ -217,7 +218,6 @@ aside h2 {
   transition: translate 300ms , box-shadow 300ms;
 
   @media (pointer: fine) {
-    cursor: pointer;
     &:hover , &:focus-visible {
       translate: 0 -.2rem 0; 
       box-shadow: 0 0 15px 1px #ddd;
@@ -329,10 +329,6 @@ aside h2 {
   gap: 1rem;
 }
 
-.items-price {
-  font-weight: 700;
-  font-size: (.9rem,4vw,1.1rem);
-}
 
 .item-price {
   color: rgb(177, 39, 4);
@@ -400,10 +396,10 @@ dialog[open] {
   inset: 50%;
   translate: -50% -50% 0;
   padding: 1.5rem;
-  background-color: #fff;
-  border: 1px solid #4d4d4d;
+  background-color: #ffffff;
   box-shadow: 0 0 22px 0 #00000063;
   display: flex;
+  border: 0;
   flex-flow: column;
   border-radius: 6px;
   z-index: 10000000;
@@ -419,7 +415,7 @@ dialog[open] {
     aspect-ratio: 1;
     line-height: 1;
     border-radius: 50%;
-    background-color: #eee7e7;
+    background-color: #9c9c9c98;
   }
 
   & form {
@@ -429,6 +425,8 @@ dialog[open] {
     
     label {
       margin-bottom: .5rem;
+      font-weight: 600;
+      font-size: 1.1rem;
     }
 
     input {
@@ -451,8 +449,7 @@ dialog[open] {
       transition: background-color 300ms , color 300ms;
       
       &:hover , &:focus-visible {
-        background-color: #ffffff;
-        color: var(--text-color);
+        background-color: #5320a5;
       }
     }
   }

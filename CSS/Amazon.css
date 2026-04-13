@@ -34,6 +34,17 @@ input {
     animation: appearOnScrolling;
     animation-timeline: view(97% 0);
   }
+
+  @keyframes appearOnScrolling {
+    from {
+      opacity: 0;
+      transform: translateY(3rem);
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
 }
 
 body {
@@ -41,16 +52,6 @@ body {
 }
 
 
-@keyframes appearOnScrolling {
-  from {
-    opacity: 0;
-    transform: translateY(3rem);
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 
 /* End Of Global Rules */
 
@@ -64,7 +65,8 @@ header {
   display: flex;
   gap: clamp(.7rem,3vw,1.3rem);
   justify-content: space-between;
-  a {
+
+  & a {
     height: stretch;
     align-content: center;
     color: white;
@@ -84,9 +86,11 @@ header img {
   transition: outline-color .3s;
   display: flex;
   outline: 3px solid transparent;
+
   &:has(input:focus) {
     outline-color: var(--secondary-color);
   }
+
   button {
     flex: 0 1 auto;
     height: 100%;
@@ -94,16 +98,20 @@ header img {
     max-height: 100%;
     padding: .2rem .8rem;
     background-color: var(--secondary-color);
-    transition: background-color .3s,box-shadow .3s;
+    transition: background-color .3s, box-shadow .3s;
     border: 0;
     cursor: pointer;
+
     &:active {
       box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.397) inset;
     }
+
     &:hover {
       background-color: #fdb953;
     }
+  
   }
+
   input {
     outline: 0;
     border: 1px solid white;
@@ -120,6 +128,7 @@ header img {
 
 .returns {
   font-size: clamp(.5rem,1.5vw,1rem);
+
   span {
     display: block;
     margin-top: .2rem;
@@ -135,6 +144,7 @@ header img {
   flex-flow: column nowrap;
   align-items: center;
   text-align: center;
+
   span {
     color: rgb(240, 136, 4);
     font-size: 15px;

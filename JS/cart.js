@@ -1,12 +1,13 @@
 import {calcPrice, cart, products, saveToStorage} from '../Data/data.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions, updateDeliveryOption} from '../Data/deliveryOption.js';
-import {submittedOrders} from '../Data/submitedOrders.js';
+import {submittedOrders, saveSubmit} from '../Data/submitedOrders.js';
 
 const productContainer = document.querySelector('.products');
 const itemsCount = document.querySelector('.checkout > output');
 const emptyCartDiv = document.querySelector('.empty-cart');
 const updateQuantity = document.querySelector('#updateQuantity');
+let totalPriceCents = 0;
 
 function updateInfo(action = '') {
   // Update The Display Of Empty Cart  
@@ -77,7 +78,7 @@ function createDom() {
     );
 
     let html = `
-      <div class="card">
+      <div class="card appear">
         <h3>Delivery Date: <span class="delivery-date" data-id="${obj.id}">${dateString}</span></h3>
       
         <div class="card-content">
@@ -121,8 +122,10 @@ function createDom() {
   });
 
   const deleteBtn = document.querySelectorAll('.delete-quantity');
+
   deleteBtn.forEach(btn => {
     const productId = btn.dataset.productId;
+  
     btn.addEventListener('click', () => {
     deleteItems(productId);
     })
@@ -194,7 +197,7 @@ function updateForm(id) {
 }
 
 submitUpdate.addEventListener('click' , () => {
-  if (quantityInput.value > 0) {
+  if (quantityInput.value > 0 && quantityInput.value < 100) {
     updateInfo('dialog');
   }
 });
@@ -208,6 +211,7 @@ function deleteItems(id) {
   document.querySelector(`.card:has([data-id="${id}"])`).remove();
   saveToStorage();
 }
+
 
 function updatePrices() {
   // Querying Prices Dom Elements 
@@ -239,15 +243,44 @@ function updatePrices() {
   taxPriceSpan.innerHTML = `$${calcPrice(pricePercentage)}`;
 
   totalPriceSpan.innerHTML = `$${calcPrice(pricePercentage + (itemsPrice + totalTaxCents))}`;
+
+  totalPriceCents = pricePercentage + (itemsPrice + totalTaxCents);
 }
 
 updatePrices();
 
 const errorDiv = document.querySelector('.cart-error');
 let time;
+
+const ids = [];
+
+function generateId() {
+  let id = '';
+  let idMatches = false;
+
+  for (let i = 0; i < 4; i++) {
+    id += `${Math.floor(Math.random() * 1000 * Math.random() * 100 + Math.random() * 100)}${i === 3 ? '' : '-'}`;
+  }
+
+  ids.forEach(idPar => idPar === id ? idMatches = true : false);
+  if (!idMatches) ids.push(id);
+  return id;
+}
+
+
 document.querySelector('.place-order').addEventListener('click', () => {
   if (cart.length) {
     window.location.href = '../HTML/orders.html';
+    submittedOrders.unshift({
+      orderId: `${generateId()}`,
+      cart,
+      placeDate: dayjs().format('MMMM D'),
+      totalPriceCents
+    });
+    saveSubmit();
+
+    cart.length = 0;
+    saveToStorage();
     return;
   }
 

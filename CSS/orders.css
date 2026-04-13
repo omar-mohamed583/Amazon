@@ -1,0 +1,446 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+}
+
+select,
+button,
+input {
+  font: inherit;
+}
+
+:root {
+  --main-used-color: hsl(49, 100%, 48%);
+  --secondary-color: #FF9900;
+  --header-background-color: #131921;
+  --hover-color: hsl(50, 85%, 48%);
+  --text-color: #111;
+  --box-shadow: hsl(50, 100%, 48%);
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+  .appear {
+    animation: appearOnScrolling;
+    animation-timeline: view(97% 0);
+  }
+
+  @keyframes appearOnScrolling {
+    from {
+      opacity: 0;
+      transform: translateY(3rem);
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .animate {
+    animation: appear;
+    animation-timeline: view(90% 0);
+  }
+  
+  @keyframes appear {
+    from {
+      translate: -4rem 2rem;
+    }
+    to {
+      translate: 0rem 0rem;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  background-color: #111;
+  width: 12px;
+    &:hover {
+    background-color: var(--secondary-color);
+    }
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #707070;
+  border-radius: 12px;
+}
+
+
+/* End Of Global Rules */
+
+header {
+  position: fixed;
+  inset-inline: 0;
+  background-color: var(--header-background-color);
+  min-height: 66.39px;
+  max-height: 80px;
+  padding: 1rem;
+  padding-inline: clamp(1.1rem,3vw,2rem);
+  color: #fff;
+  z-index: 100000000;
+
+  & a {
+    height: stretch;
+    align-content: center;
+    color: white;
+    text-decoration: none;
+  }
+}
+
+header img {
+  height: 1.9rem;
+}
+
+header .container {
+  max-width: 1350px;
+  margin-inline: auto;
+  display: flex;
+  gap: clamp(.7rem,3vw,1.3rem);
+  justify-content: space-between;
+}
+
+.search-bar {
+  width: clamp(25rem,80vw,50rem);
+  overflow: hidden;
+  border-radius: 4px;
+  margin-inline: auto;
+  transition: outline-color .3s;
+  display: flex;
+  outline: 3px solid transparent;
+
+  &:has(input:focus) {
+    outline-color: var(--secondary-color);
+  }
+
+  & button {
+    flex: 0 1 auto;
+    height: 100%;
+    width: fit-content;
+    max-height: 100%;
+    padding: .2rem .8rem;
+    background-color: var(--secondary-color);
+    transition: background-color .3s, box-shadow .3s;
+    border: 0;
+    cursor: pointer;
+
+    &:active {
+      box-shadow: 0 3px 5px 1px rgba(0, 0, 0, 0.397) inset;
+    }
+
+    &:hover {
+      background-color: #fdb953;
+    }
+  
+  }
+
+  & input {
+    outline: 0;
+    border: 1px solid white;
+    margin-right: -2px;
+    padding-inline: 1rem;
+    font-size: 1rem;
+    flex: 1 1 auto;
+  }
+}
+
+.search-bar img {
+  height: 1.4rem;
+}
+
+.returns {
+  font-size: 1rem;
+
+  & span {
+    display: block;
+    margin-top: .2rem;
+    font-weight: 500;
+  }
+}
+
+.cart {
+  position: relative;
+  font-weight: 600;
+  display: flex;
+  gap: .2rem;
+  flex-flow: column nowrap;
+  align-items: center;
+  text-align: center;
+
+  & span {
+    color: rgb(240, 136, 4);
+    font-size: 15px;
+    font-weight: 700;
+    position: absolute;
+    top: -1px;
+    left: 56.5%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-weight: 600;
+  }
+}
+
+/* To Avoid Over Stretching Of Content In the Big Screens */
+main .container {
+  max-width: 1000px;
+  padding: 7rem 1rem 0;
+  content-visibility: auto;
+  contain: layout;
+  min-height: 100dvh;
+  margin-inline: auto;
+
+  & h2 {
+    position: relative;
+    font-size: clamp(1.5rem,5vw,2rem);
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      display: grid;
+      grid-template-areas: "stack";
+
+      * {
+        grid-area: stack;
+      }
+
+      input {
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        cursor: pointer;
+      }
+
+      label {
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        padding: .5rem;
+        border-radius: 5px;
+        transition: background-color 300ms , color 300ms;
+      }
+
+      label:has( + input:checked) {
+        background-color: var(--header-background-color);
+        color: #fff;
+      }
+    }
+
+    &::before , &::after {
+      content: '';
+      background-color: #bfbfbf;
+      position: absolute;
+      height: 4px;
+      border-radius: 10px;
+      left: 3px;
+    }
+
+    &::before {
+      bottom: -8px;
+      width: 120px;
+    }
+
+    &::after {
+      bottom: -18px;
+      width: 60px;
+    }
+  }
+}
+
+/* Card Container */
+
+.orders-container {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 4rem;
+  margin-top: 3.5rem;
+  padding-block: 1rem 4rem;
+}
+
+.card {
+  display: flex;
+  flex-flow: column nowrap;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  transition: translate 200ms, border-color 500ms;
+
+  @media (prefers-reduced-motion: no-preference) { 
+    &:hover {
+      translate: 0 -.5rem 0;
+    }
+  }
+}
+
+.card-header {
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 300ms, border-radius 300ms;
+  display: flex;
+  gap: 2.5rem;
+  min-height: 4.2rem;
+
+  & p:last-child {
+    margin-left: auto;
+
+    span {
+      user-select: all;
+    }
+  }
+
+  & p {
+    font-weight: 500;
+    font-size: 1.025rem;
+    display: flex;
+    flex-flow: column;
+    gap: .2rem;
+  }
+}
+
+.animated-header {
+  border-radius: 10px;
+  border-color: transparent;
+}
+
+.card-body {
+  display: flex;
+  flex-flow: column;
+  contain: layout;
+  transform-origin: bottom;
+  transition: height 700ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  overflow: hidden;
+  content-visibility: auto;
+}
+
+.product {
+  display: flex;
+  padding: 1.6rem;
+  gap: clamp(1rem,5vw,3rem);
+
+  & > img {
+    width: clamp(6rem,6vw,8rem);
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+
+  .track-package {
+    margin-left: auto;
+    border-radius: 8px;
+    border: 1px solid var(--header-background-color);
+    background-color: var(--header-background-color);
+    color: #fff;
+    height: fit-content;
+    font-weight: 600;
+    padding: .6rem 1.6rem;
+    transition: color 200ms, background-color 200ms;
+    cursor: pointer;
+    min-width: max-content;
+    letter-spacing: .7px;
+
+    &:hover {
+      background-color: #fff;
+      color: #000;
+    }
+  }
+}
+
+@media screen and (max-width: 648px) {
+  .card-header {
+    flex-flow: wrap;
+
+    & p:nth-child(2) {
+      margin-left: auto;
+    }
+
+    & p:last-child {
+      margin-inline: auto; 
+    }
+  }
+
+  .product {
+    display: grid;
+    grid-template-areas: 
+    "img details"
+    "button button";
+
+    & img {
+      grid-area: img;
+    }
+
+    & .details {
+      grid-area: details;
+
+      & h3.name {
+        text-align: center;
+        text-align-last: center;
+      }
+    }
+
+    & .track-package {
+      grid-area: button;
+      margin-left: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .product {
+    grid-template: 
+    'img'
+    'details'
+    'button';
+
+    img {
+      justify-self: center;
+    }
+
+    & .details button.buy-again {
+      justify-content: center;
+      width: auto;
+    }
+  }
+}
+
+.product .details {
+  display: flex;
+  flex-flow: column;
+  gap: .6rem;
+
+  .buy-again {
+    background-color: var(--main-used-color);
+    transition: background-color 200ms , color 200ms;
+    border-radius: 8px;
+    border: 0;
+    padding: .5rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    cursor: pointer;
+    width: fit-content;
+
+    & img {
+      width: 1.5rem;
+      aspect-ratio: 1;
+      transition: filter 200ms;
+    }
+
+    &:hover {
+      color: #fff;
+      background-color: var(--header-background-color);
+
+      img {
+        filter: invert(1);
+      }
+    }
+  }
+}

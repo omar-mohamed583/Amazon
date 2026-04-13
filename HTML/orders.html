@@ -7,6 +7,64 @@
     <link rel="stylesheet" href="../CSS/orders.css">
   </head>
   <body>
+
+    <!-- Header -->
+
+    <header>
+
+        <!-- Container to Prevent content from expanding in very large Screens -->
+        <div class="container">
+
+          <a href="Amazon.html">
+              <img src="https://supersimple.dev/projects/amazon/images/amazon-logo-white.png" loading="eager" alt="amazon-logo-white">
+          </a>
     
+          <div class="search-bar">
+            <input type="search" name="search" placeholder="Search">
+          
+              <button>
+                <img src="https://supersimple.dev/projects/amazon/images/icons/search-icon.png" loading="eager" alt="search-icon">
+              </button>
+            
+          </div>
+    
+          <a href="orders.html" class="returns">
+            Returns 
+            <span>& Orders</span>
+          </a>
+    
+          <a href="cart.html" class="cart">
+    
+            <img src="https://supersimple.dev/projects/amazon/images/icons/cart-icon.png" loading="eager" alt="cart-icon">
+    
+            <span>0</span>
+            Cart
+            </a>
+        </div>
+
+
+    </header>
+
+    <main>
+
+      <div class="container">
+
+        <h2>Your Orders
+          <p>
+            <label for="check">Show Each Order Products</label>
+            <input type="checkbox" id="check" checked>
+          </p>
+        </h2>
+
+        <div class="orders-container">
+
+        </div>
+      </div>
+
+
+    </main>      
+
+
+    <script type="module" src="../JS/order.js" defer></script>
   </body>
 </html>

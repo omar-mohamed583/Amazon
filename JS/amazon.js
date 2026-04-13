@@ -5,11 +5,13 @@ cart.forEach(item => cartItemsCount += item.quantity);
 if (cartItemsSpan) cartItemsSpan.innerHTML = cartItemsCount;
 const addItem = document.querySelector('.add');
 const cardContainer = document.querySelector('.card-container');
+const search = document.querySelector('.search-bar button');
+const searchInput = document.querySelector('.search-bar input');
 
 function initializeShop() {
-  products.forEach((product) => {
+  products.forEach(product => {
     const html = `
-<div class="card">
+<div class="card appear">
     <img src="https://supersimple.dev/projects/amazon/${product.image}" alt="${product.name}">
     <p title="${product.name}">${product.name}</p>
     <div class="rate">
@@ -154,6 +156,48 @@ function initializeShop() {
       });
     });
 }
+
+
+
+search
+  .addEventListener('click', () => {
+    const items = searchItems(searchInput.value ? searchInput.value : false);
+    
+    if (searchItems(searchInput.value ? searchInput.value : false)) {
+      cardContainer.innerHTML = '';
+
+      items.forEach(item => {
+        const html = `
+        <div class="card">
+        <img src="https://supersimple.dev/projects/amazon/${item.image}" alt="${item.name}">
+        <p title="${item.name}">${item.name}</p>
+        <div class="rate">
+          <img src="https://supersimple.dev/projects/amazon/images/ratings/rating-${item.rating.stars === 4.5 ? 45 : item.rating.stars}.png" alt="stars-img">
+          <span>${item.rating.count}</span>
+        </div>
+        <span>$${calcPrice(item.priceCents)}</span>
+        <select class="js-${item.id}">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <div class="added-to-cart-${item.id}">✅ Added</div>
+        <button data-product-id="${item.id}">Add To Cart</button>
+        </div>`;
+        cardContainer.innerHTML += html;
+      })
+
+    } else {
+      return;
+    }
+  });
 
 if (cardContainer) {
   initializeShop();
