@@ -32,10 +32,6 @@ input {
   html {
     scroll-behavior: smooth;
   }
-  .appear {
-    animation: appearOnScrolling;
-    animation-timeline: view(97% 0);
-  }
 }
 
 header {

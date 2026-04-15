@@ -30,25 +30,10 @@ input {
   html {
     scroll-behavior: smooth;
   }
-  .appear {
-    animation: appearOnScrolling;
-    animation-timeline: view(97% 0);
-  }
 
-  @keyframes appearOnScrolling {
-    from {
-      opacity: 0;
-      transform: translateY(3rem);
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-  
   .animate {
     animation: appear;
-    animation-timeline: view(90% 0);
+    animation-timeline: view(97% 0);
   }
   
   @keyframes appear {
@@ -316,7 +301,7 @@ main .container {
   flex-flow: column;
   contain: layout;
   transform-origin: bottom;
-  transition: height 700ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transition: height 1000ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
   overflow: hidden;
   content-visibility: auto;
 }

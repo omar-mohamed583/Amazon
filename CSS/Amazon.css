@@ -30,27 +30,11 @@ input {
   html {
     scroll-behavior: smooth;
   }
-  .appear {
-    animation: appearOnScrolling;
-    animation-timeline: view(97% 0);
-  }
-
-  @keyframes appearOnScrolling {
-    from {
-      opacity: 0;
-      transform: translateY(3rem);
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
 }
 
 body {
   min-height: 100vh;
 }
-
 
 
 /* End Of Global Rules */
@@ -163,6 +147,7 @@ main .card-container {
   grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
   grid-auto-rows: 480px;
   max-width: 1500px;
+  margin-inline: auto;
   perspective: 600px;
   content-visibility: auto;
 }

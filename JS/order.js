@@ -7,6 +7,7 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 const cardContainer = document.querySelector('.orders-container');
 const cartCount = document.querySelector('.cart span');
 
+
 cartCount.textContent = `${cart.length}`;
 
 function generateHtml() {
@@ -59,7 +60,7 @@ function generateHtml() {
     }
 
     const html = `
-          <div class="card appear">
+          <div class="card">
             <div class="card-header">
               <p>
                 Order Placed: <span>${order.placeDate}</span>
@@ -95,6 +96,13 @@ function generateHtml() {
 
 
 generateHtml();
+
+const bodies =  document.querySelectorAll('.card-body');
+
+bodies.forEach(body => {
+  const totalHeight = body.scrollHeight;
+  body.style.height = totalHeight + 'px';
+})
 
 const cards = document.querySelectorAll('.card');
 const closeInput = document.querySelector('h2 p input');
@@ -144,13 +152,25 @@ let time;
 buyBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const productId = btn.dataset.productId;
+    let inCart = false;
 
-    cart.unshift({
-      productId,
-      quantity: 1,
-      deliveryOptionId: '1'
+    cart.forEach(item => {
+      if (item.productId === productId) {
+        inCart = true;
+        item.quantity++;
+        saveToStorage();
+      };
     });
-    saveToStorage();
+
+    if (!inCart) {
+
+      cart.unshift({
+        productId,
+        quantity: 1,
+        deliveryOptionId: '1'
+      });
+      saveToStorage();
+    }
 
     btn.style.width = '134.9px';
     btn.style.justifyContent = 'center';
