@@ -35,7 +35,7 @@ input {
     animation: appear;
     animation-timeline: view(97% 0);
   }
-  
+
   @keyframes appear {
     from {
       translate: -4rem 2rem;
@@ -124,7 +124,7 @@ header .container {
     &:hover {
       background-color: #fdb953;
     }
-  
+
   }
 
   & input {
@@ -257,7 +257,7 @@ main .container {
   overflow: hidden;
   transition: translate 200ms, border-color 500ms;
 
-  @media (prefers-reduced-motion: no-preference) { 
+  @media (prefers-reduced-motion: no-preference) {
     &:hover {
       translate: 0 -.5rem 0;
     }
@@ -269,7 +269,7 @@ main .container {
   border-bottom: 1px solid #ddd;
   padding: 1rem 1.5rem;
   cursor: pointer;
-  transition: border-color 300ms, border-radius 300ms;
+  transition: border-color 490ms, border-radius 490ms;
   display: flex;
   gap: 2.5rem;
   min-height: 4.2rem;
@@ -301,7 +301,7 @@ main .container {
   flex-flow: column;
   contain: layout;
   transform-origin: bottom;
-  transition: height 1000ms cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  transition: height 500ms cubic-bezier(0.4,0,0.2,1);
   overflow: hidden;
   content-visibility: auto;
 }
@@ -347,13 +347,13 @@ main .container {
     }
 
     & p:last-child {
-      margin-inline: auto; 
+      margin-inline: auto;
     }
   }
 
   .product {
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
     "img details"
     "button button";
 
@@ -379,7 +379,7 @@ main .container {
 
 @media screen and (max-width: 420px) {
   .product {
-    grid-template: 
+    grid-template:
     'img'
     'details'
     'button';
