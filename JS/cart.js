@@ -270,7 +270,7 @@ import {submittedOrders, saveSubmit} from '../Data/submitedOrders.js';
   
   document.querySelector('.place-order').addEventListener('click', () => {
     if (cart.length) {
-      window.location.href = '../HTML/orders.html';
+      window.location.href = '/orders.html';
       submittedOrders.unshift({
         orderId: `${generateId()}`,
         cart,
