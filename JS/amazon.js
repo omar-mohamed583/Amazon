@@ -1,8 +1,12 @@
 import {products, cart, calcPrice, saveToStorage} from '../Data/data.js';
+
 const cartItemsSpan = document.querySelector('.cart span');
 let cartItemsCount = 0;
+
 cart.forEach(item => cartItemsCount += item.quantity);
+
 if (cartItemsSpan) cartItemsSpan.innerHTML = cartItemsCount;
+
 const addItem = document.querySelector('.add');
 const cardContainer = document.querySelector('.card-container');
 const search = document.querySelector('.search-bar button');
@@ -11,7 +15,7 @@ const searchInput = document.querySelector('.search-bar input');
 function initializeShop() {
   products.forEach(product => {
     const html = `
-<div class="card appear">
+  <div class="card appear">
     <img src="https://supersimple.dev/projects/amazon/${product.image}" alt="${product.name}">
     <p title="${product.name}">${product.name}</p>
     <div class="rate">
