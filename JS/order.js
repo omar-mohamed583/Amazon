@@ -20,7 +20,6 @@ openMenuBtn.addEventListener('click', () => {
 });
 
 let count = 0;
-
 cart.forEach(item => count += item.quantity);
 
 
@@ -171,8 +170,9 @@ buyBtns.forEach(btn => {
     let inCart = false;
 
     cart.forEach(item => {
-      count++;
       if (item.productId === productId) {
+
+        count++;
         inCart = true;
         item.quantity++;
         saveToStorage();
@@ -180,6 +180,8 @@ buyBtns.forEach(btn => {
     });
 
     if (!inCart) {
+
+      count++;
 
       cart.unshift({
         productId,
@@ -189,7 +191,7 @@ buyBtns.forEach(btn => {
       saveToStorage();
     }
 
-    btn.style.width = '134.9px';
+    window.innerWidth > 400 ? btn.style.width = '134.9px' : btn.style.width = '100%';
     btn.style.justifyContent = 'center';
     cartCount.textContent = `${count}`;
     btn.innerHTML = 'Added ✔️';
@@ -203,8 +205,11 @@ buyBtns.forEach(btn => {
       btn.innerHTML = `
       <img src="https://supersimple.dev/projects/amazon/images/icons/buy-again.png" aria-hidden="true">
       Buy it again`;
-      btn.style.width = 'fit-content';
-      btn.style.justifyContent = 'unset';
+
+      if (window.innerWidth > 400) {
+        btn.style.width = 'fit-content';
+        btn.style.justifyContent = 'unset';
+      }
     },1000);
   });
 });

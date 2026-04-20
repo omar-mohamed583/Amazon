@@ -15,26 +15,6 @@ export const products = [
     ]
   },
   {
-    id: "rr3342343e-32443432rff-243244ff-555uy",
-    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-    name: "Backpack",
-    rating: {
-      stars: 4,
-      count: 80
-    },
-    priceCents: 2050, 
-  },
-  {
-    id: "tt4dd2kk455-3432lr320-2enn42324-334mr2",
-    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-    name: "Umbrella",
-    rating: {
-      stars: 4,
-      count: 80
-    },
-    priceCents: 3050, 
-  },
-  {
     id: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
     image: "images/products/intermediate-composite-basketball.jpg",
     name: "Intermediate Size Basketball",
@@ -171,25 +151,6 @@ export const products = [
     ]
   },
   {
-    id: "5968897c-4d27-4872-89f6-5bcb052746d7",
-    image: "images/products/knit-athletic-sneakers-gray.jpg",
-    name: "Women's Chiffon Beachwear Cover Up - Black",
-    rating: {
-      stars: 4.5,
-      count: 235
-    },
-    priceCents: 2070,
-    keywords: [
-      "robe",
-      "swimsuit",
-      "swimming",
-      "bathing",
-      "apparel"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
-  },
-  {
     id: "aad29d11-ea98-41ee-9285-b916638cac4a",
     image: "images/products/round-sunglasses-black.jpg",
     name: "Round Sunglasses",
@@ -312,25 +273,6 @@ export const products = [
       "accessories",
       "womens"
     ]
-  },
-  {
-    id: "b0f17cc5-8b40-4ca5-9142-b61fe3d98c85",
-    image: "images/products/sky-flower-stud-earrings.webp",
-    name: "Women's Stretch Popover Hoodie",
-    rating: {
-      stars: 4.5,
-      count: 2465
-    },
-    priceCents: 1374,
-    keywords: [
-      "hooded",
-      "hoodies",
-      "sweaters",
-      "womens",
-      "apparel"
-    ],
-    type: "clothing",
-    sizeChartLink: "images/clothing-size-chart.png"
   },
   {
     id: "a93a101d-79ef-4cf3-a6cf-6dbe532a1b4a",
@@ -507,23 +449,6 @@ export const products = [
       "washroom",
       "mirrors",
       "home"
-    ]
-  },
-  {
-    id: "a45cfa0a-66d6-4dc7-9475-e2b01595f7d7",
-    image: "images/products/vanity-mirror-silver.jpg",
-    name: "Women's Fleece Jogger Sweatpant",
-    rating: {
-      stars: 4.5,
-      count: 248
-    },
-    priceCents: 2400,
-    keywords: [
-      "pants",
-      "sweatpants",
-      "jogging",
-      "apparel",
-      "womens"
     ]
   },
   {
