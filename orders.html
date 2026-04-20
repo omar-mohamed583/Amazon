@@ -16,7 +16,10 @@
         <div class="container">
 
           <a href="index.html">
-              <img src="https://supersimple.dev/projects/amazon/images/amazon-logo-white.png" loading="eager" alt="amazon-logo-white">
+            <picture>
+              <source media="(min-width: 768px)" srcset="https://supersimple.dev/projects/amazon/images/amazon-logo-white.png">
+              <img src="https://supersimple.dev/projects/amazon/images/amazon-mobile-logo-white.png" alt="Amazon logo" class="logo" width="100" height="32">
+            </picture>
           </a>
     
           <div class="search-bar">
@@ -28,18 +31,27 @@
             
           </div>
     
-          <a href="orders.html" class="returns">
-            Returns 
-            <span>& Orders</span>
-          </a>
-    
-          <a href="cart.html" class="cart">
-    
-            <img src="https://supersimple.dev/projects/amazon/images/icons/cart-icon.png" loading="eager" alt="cart-icon">
-    
-            <span>0</span>
-            Cart
+          <div class="burger-menu" role="button" aria-label="Menu Contains orders Page and Cart Page links">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="links">
+
+            <a href="orders.html" class="returns">
+              Returns 
+              <span>& Orders</span>
             </a>
+      
+            <a href="cart.html" class="cart">
+      
+              <img src="https://supersimple.dev/projects/amazon/images/icons/cart-icon.png" loading="eager" alt="cart-icon">
+      
+              <span>0</span>
+              Cart
+            </a>
+          </div>
         </div>
 
 

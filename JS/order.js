@@ -6,9 +6,25 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 const cardContainer = document.querySelector('.orders-container');
 const cartCount = document.querySelector('.cart span');
+const openMenuBtn = document.querySelector('.burger-menu');
+const menu = document.querySelector('.links');
+
+openMenuBtn.addEventListener('click', () => {
+  if (menu.classList.contains('open')) {  
+    menu.classList.remove('open');
+    menu.style.translate = '120%';
+  } else {
+    menu.classList.add('open');
+    menu.style.translate = '0';
+  }
+});
+
+let count = 0;
+
+cart.forEach(item => count += item.quantity);
 
 
-cartCount.textContent = `${cart.length}`;
+cartCount.textContent = `${count}`;
 
 function generateHtml() {
   cardContainer.innerHTML = ''; 
@@ -155,6 +171,7 @@ buyBtns.forEach(btn => {
     let inCart = false;
 
     cart.forEach(item => {
+      count++;
       if (item.productId === productId) {
         inCart = true;
         item.quantity++;
@@ -174,7 +191,7 @@ buyBtns.forEach(btn => {
 
     btn.style.width = '134.9px';
     btn.style.justifyContent = 'center';
-    cartCount.textContent = `${cart.length}`;
+    cartCount.textContent = `${count}`;
     btn.innerHTML = 'Added ✔️';
 
 

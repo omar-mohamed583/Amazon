@@ -11,6 +11,18 @@ const addItem = document.querySelector('.add');
 const cardContainer = document.querySelector('.card-container');
 const search = document.querySelector('.search-bar button');
 const searchInput = document.querySelector('.search-bar input');
+const openMenuBtn = document.querySelector('.burger-menu');
+const menu = document.querySelector('.links');
+
+openMenuBtn.addEventListener('click', () => {
+  if (menu.classList.contains('open')) {  
+    menu.classList.remove('open');
+    menu.style.translate = '120%';
+  } else {
+    menu.classList.add('open');
+    menu.style.translate = '0';
+  }
+});
 
 function initializeShop() {
   products.forEach(product => {

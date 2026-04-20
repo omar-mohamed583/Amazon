@@ -63,15 +63,22 @@ input {
 /* End Of Global Rules */
 
 header {
-  position: fixed;
-  inset-inline: 0;
   background-color: var(--header-background-color);
   min-height: 66.39px;
   max-height: 80px;
-  padding: 1rem;
+  padding: clamp(1.1rem,.4rem,2rem);
   padding-inline: clamp(1.1rem,3vw,2rem);
   color: #fff;
-  z-index: 100000000;
+  position: relative;
+  z-index: 10000000;
+
+  .container {
+    display: flex;
+    margin-inline: auto;
+    max-width: 1300px;
+    gap: clamp(.7rem,5vw,1.3rem);
+    justify-content: space-between;
+  }
 
   & a {
     height: stretch;
@@ -85,12 +92,12 @@ header img {
   height: 1.9rem;
 }
 
-header .container {
-  max-width: 1350px;
-  margin-inline: auto;
-  display: flex;
-  gap: clamp(.7rem,3vw,1.3rem);
-  justify-content: space-between;
+@media screen and (max-width: 768px) {
+  header picture img {
+    vertical-align: middle;
+    width: 32px!important;
+    height: 32px!important;
+  }
 }
 
 .search-bar {
@@ -106,7 +113,7 @@ header .container {
     outline-color: var(--secondary-color);
   }
 
-  & button {
+  button {
     flex: 0 1 auto;
     height: 100%;
     width: fit-content;
@@ -124,10 +131,10 @@ header .container {
     &:hover {
       background-color: #fdb953;
     }
-
+  
   }
 
-  & input {
+  input {
     outline: 0;
     border: 1px solid white;
     margin-right: -2px;
@@ -141,10 +148,32 @@ header .container {
   height: 1.4rem;
 }
 
-.returns {
-  font-size: 1rem;
+.burger-menu {
+  display: none;
+  flex-flow: column;
+  gap: 7px;
+  width: 2.1rem;
+  cursor: pointer;
+  align-self: center;
 
   & span {
+    background-color: #eee;
+    width: 100%;
+    height: 3px;
+    border-radius: 8px;
+  }
+}
+
+.links {
+  display: flex;
+  gap: 1rem;
+}
+
+.returns {
+  font-size: 1rem;
+  min-width: max-content;
+
+  span {
     display: block;
     margin-top: .2rem;
     font-weight: 500;
@@ -160,7 +189,7 @@ header .container {
   align-items: center;
   text-align: center;
 
-  & span {
+  span {
     color: rgb(240, 136, 4);
     font-size: 15px;
     font-weight: 700;
@@ -173,13 +202,76 @@ header .container {
   }
 }
 
+
+@media screen and (max-width: 768px) {
+  header {
+    position: fixed;
+    top: 0;
+    inset-inline: 0;
+  } 
+
+  main .card-container {
+    padding-top: calc(7rem + 73.19px);
+  }
+  .burger-menu {
+    display: flex;
+  }
+
+  .links {
+    position: absolute;
+    top: 100%;
+    gap: 1.2rem;
+    right: 0;
+    width: fit-content;
+    transition: translate 300ms;
+    z-index: 100000;
+    background-color: var(--header-background-color);
+    padding: .6rem;
+    border-radius: 0 0 0 8px;
+    box-shadow: -10px 12px 10px 1px #00000050;
+    translate: 120%;
+  }
+
+  .links .returns {
+    position: relative;
+    
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: -9px;
+      width: 2px;
+      height: 100%;
+      background-color: #eee;
+    }
+  }
+  
+  .search-bar {
+    width: auto;
+
+    input {
+      padding: .6rem 0 .6rem .5rem;
+    }
+    
+    button {
+      display: none;
+    }
+
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .links {
+    translate: 0 !important;
+  }
+}
+
 /* To Avoid Over Stretching Of Content In the Big Screens */
 main .container {
   max-width: 1000px;
   padding: 7rem 1rem 0;
   content-visibility: auto;
   contain: layout;
-  min-height: 100dvh;
   margin-inline: auto;
 
   & h2 {
@@ -236,6 +328,12 @@ main .container {
       bottom: -18px;
       width: 60px;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  main .container h2 p {
+    display: none;
   }
 }
 
