@@ -1,4 +1,5 @@
 import {saveToStorage, cart} from './data.js';
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 export const deliveryOptions = [{
   id: '1',
@@ -25,4 +26,16 @@ export function updateDeliveryOption(productId , deliveryOptionId) {
 
   itemMatches.deliveryOptionId = deliveryOptionId;
   saveToStorage()
+}
+
+export function calcDate(formate = 'dddd, MMMM D', days, today) {
+  const deliveryDate = today.add(
+    days,
+    'days'
+  );
+  const dateString = deliveryDate.format(
+    formate
+  );
+
+  return dateString;
 }

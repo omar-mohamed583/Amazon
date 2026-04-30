@@ -3,4 +3,8 @@
     "Calcution",
     "nums"
   ],
+  "emmet.triggerExpansionOnTab": true,
+  "emmet.includeLanguages": {
+    "javascript": "html"
+  }
 } 

@@ -1,7 +1,7 @@
-import {submittedOrders} from '../Data/submitedOrders.js';
+import {submittedOrders} from '../Data/submittedOrders.js';
 import {products} from '../Data/products.js';
 import {cart, saveToStorage} from '../Data/data.js';
-import {deliveryOptions} from '../Data/deliveryOption.js';
+import {deliveryOptions, calcDate} from '../Data/deliveryOption.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 const cardContainer = document.querySelector('.orders-container');
@@ -22,11 +22,11 @@ openMenuBtn.addEventListener('click', () => {
 let count = 0;
 cart.forEach(item => count += item.quantity);
 
-
 cartCount.textContent = `${count}`;
 
 function generateHtml() {
   cardContainer.innerHTML = ''; 
+  let fullHtml = '';
 
   if (submittedOrders.length) {
 
@@ -36,12 +36,8 @@ function generateHtml() {
       let htmlForProducts = '';
       
       order.cart.forEach( cartProduct => {
-        const today = dayjs();
-        const day = today.add(
-          deliveryOptions[(cartProduct.deliveryOptionId) - 1].deliveryDays , 'days'
-        );
 
-        const dateString = day.format('MMMM d'); 
+        const dateString = calcDate('MMMM D', deliveryOptions.find(option => option.id === (cartProduct.deliveryOptionId)).deliveryDays, dayjs(order.orderPutDate)); 
         products.forEach( product => {
   
           if (product.id === cartProduct.productId) {
@@ -65,7 +61,7 @@ function generateHtml() {
                     </button>
                 </div>
 
-                <button class="track-package" data-order-id="${order.orderId}">Track Package</button>
+                <button class="track-package" data-order-id="${order.orderId}" data-product-id="${cartProduct.productId}">Track Package</button>
               </div>`;
             }
           });
@@ -97,9 +93,9 @@ function generateHtml() {
             </div>
           </div>`;
 
-    cardContainer.innerHTML += html; 
-  }); 
-
+          fullHtml += html;
+        }); 
+    cardContainer.innerHTML = fullHtml; 
 
   } else {
 
@@ -108,55 +104,79 @@ function generateHtml() {
     `;
   }
 };
-
-
 generateHtml();
 
-const bodies =  document.querySelectorAll('.card-body');
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    const bodies =  document.querySelectorAll('.card-body');
+    bodies.forEach(body => {
+      body.style.height = '0px';
+    });
+  })
+});
 
-bodies.forEach(body => {
-  const totalHeight = body.scrollHeight;
-  body.style.height = totalHeight + 'px';
-})
+let resizeTimer;
+
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    document.querySelectorAll('.card-body').forEach(body => {
+      if (body.style.height !== '0px') {
+        body.style.transition = 'none';
+        body.style.height = 'auto';
+        const newHeight = body.scrollHeight;
+        body.style.height = newHeight + 'px';
+        requestAnimationFrame(() => {
+          body.style.transition = '';
+        });
+      }
+    });
+  }, 100);
+});
 
 const cards = document.querySelectorAll('.card');
 const closeInput = document.querySelector('h2 p input');
 const cardHeader = document.querySelectorAll('.card-header');
 
 closeInput.addEventListener('click', () => {
-  const cardBody = document.querySelectorAll('.card-body');
 
-  cardBody.forEach( ele => {
-    const totalHeight = ele.scrollHeight;
-
-    if (closeInput.checked) {
-
-      cardHeader.forEach(header => header.classList.remove('animated-header'));
-
-      ele.style.height = totalHeight + 'px';
-
-    } else {
-      ele.style.height = '0';
-
-      cardHeader.forEach(header => header.classList.add('animated-header'));
-    }
+  requestAnimationFrame(() => {
+    const cardBody = document.querySelectorAll('.card-body');
+  
+    cardBody.forEach( ele => {
+      const totalHeight = ele.scrollHeight;
+  
+      if (closeInput.checked) {
+  
+        cardHeader.forEach(header => header.classList.remove('animated-header'));
+  
+        ele.style.height = totalHeight + 'px';
+  
+      } else {
+        ele.style.height = '0';
+  
+        cardHeader.forEach(header => header.classList.add('animated-header'));
+      }
+    })
   })
 });
+
 
 cards.forEach(card => {
   const nextBody = card.querySelector('.card-body');
   const cardHeader = card.querySelector('.card-header');
   cardHeader.addEventListener('click', () => {
-
-    if (nextBody.style.height !== '0px') {
-      nextBody.style.height = '0';
-      cardHeader.classList.add('animated-header');
-
-    } else {
-    const totalHeight = nextBody.scrollHeight;
-      nextBody.style.height = totalHeight + 'px';
-      cardHeader.classList.remove('animated-header');
-    }
+    requestAnimationFrame(() => {
+      if (nextBody.style.height !== '0px') {
+        nextBody.style.height = '0';
+        cardHeader.classList.add('animated-header');
+  
+      } else {
+      const totalHeight = nextBody.scrollHeight;
+        nextBody.style.height = totalHeight + 'px';
+        cardHeader.classList.remove('animated-header');
+      }
+    });
   });
 });
 
@@ -212,4 +232,26 @@ buyBtns.forEach(btn => {
       }
     },1000);
   });
+});
+
+const trackBtns = document.querySelectorAll('.track-package');
+
+trackBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const {orderId , productId} = btn.dataset;
+
+    window.location.href = `../tracking.html?orderId=${orderId}&productId=${productId}`;
+  });
+});
+
+const search = document.querySelector('.search-bar button');
+const searchInput = document.querySelector('.search-bar input');
+
+search
+  .addEventListener('click', () => {
+    window.location.href = `./index.html?search=${searchInput.value?.toLowerCase().split(' ').join('+')}`;
+  });
+
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.location.href = `./index.html?search=${searchInput.value?.toLowerCase().split(' ').join('+')}`;
 });

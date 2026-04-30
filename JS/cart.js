@@ -1,7 +1,7 @@
 import {calcPrice, cart, products, saveToStorage} from '../Data/data.js';
+import {calcDate, deliveryOptions, updateDeliveryOption} from '../Data/deliveryOption.js';
+import {submittedOrders, saveSubmit} from '../Data/submittedOrders.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
-import {deliveryOptions, updateDeliveryOption} from '../Data/deliveryOption.js';
-import {submittedOrders, saveSubmit} from '../Data/submitedOrders.js';
 
 const productContainer = document.querySelector('.products');
 const itemsCount = document.querySelector('.checkout > output');
@@ -66,16 +66,8 @@ function createDom() {
     deliveryOptions.forEach(option => {
       if (option.id === deliveryOptionId) matchingObj = option;
     });
-    const today = dayjs();
 
-    const deliveryDate = today.add(
-      matchingObj.deliveryDays,
-      'days'
-    );
-
-    const dateString = deliveryDate.format(
-      'dddd, MMMM D'
-    );
+    const dateString = calcDate('dddd, MMMM D', matchingObj.deliveryDays, dayjs());
 
     let html = `
       <div class="card appear">
@@ -140,16 +132,7 @@ function deliveryOptionsHTML(obj,cartItem) {
   let count = 1;
 
   deliveryOptions.forEach(option => {
-    const today = dayjs();
-
-    const deliveryDate = today.add(
-      option.deliveryDays,
-      'days'
-    );
-
-    const dateString = deliveryDate.format(
-      'dddd, MMMM D'
-    );
+    const dateString = calcDate('dddd, MMMM D', deliveryOptions[count-1].deliveryDays, dayjs());
 
     const priceString = option.priceCents === 0 
     ? 'FREE'  
@@ -194,11 +177,18 @@ function updateForm(id) {
   quantityInput.value = quantity;
 
   updateQuantity.showModal();
+
+  document.body.style.paddingRight = window.innerWidth - document.documentElement.clientWidth + 'px';
+  document.body.style.overflow = 'hidden';
 }
 
 submitUpdate.addEventListener('click' , () => {
   if (quantityInput.value > 0 && quantityInput.value < 100) {
     updateInfo('dialog');
+    requestAnimationFrame(() => {
+      document.body.style.paddingRight = '';
+      document.body.style.overflow = '';
+    });
   }
 });
 
@@ -251,7 +241,9 @@ updatePrices();
 const errorDiv = document.querySelector('.cart-error');
 let time;
 
-const ids = [];
+// To ensure that no id is repeated twice
+
+const ids = JSON.parse(localStorage.getItem('ids')) || [];
 
 function generateId() {
   let id = '';
@@ -263,43 +255,48 @@ function generateId() {
 
   ids.forEach(idPar => idPar === id ? idMatches = true : false);
   if (!idMatches) ids.push(id);
+
+  localStorage.setItem('ids', JSON.stringify(ids));
   return id;
 }
 
 
 document.querySelector('.place-order').addEventListener('click', () => {
   if (cart.length) {
-    window.location.href = './orders.html';
+    
     submittedOrders.unshift({
       orderId: `${generateId()}`,
       cart,
       placeDate: dayjs().format('MMMM D'),
-      totalPriceCents
+      orderPutDate: dayjs(),
+      totalPriceCents,
     });
+    
     saveSubmit();
-
+    
     cart.length = 0;
     saveToStorage();
-    return;
+    window.location.href = './orders.html';
+  } else {
+
+      if (time) {
+        clearTimeout(time);
+      }
+    
+      // Show the error message
+      errorDiv.style.translate = '0 0';
+      const innerDiv = errorDiv.querySelector('div');
+      innerDiv.style.scale = '0 1';
+    
+      time = setTimeout(() => {
+        errorDiv.style.translate = '102% 0';
+        innerDiv.style.transition = 'scale 0ms 30ms';
+        innerDiv.style.scale = '1 1';
+        setTimeout( () => {
+          innerDiv.style.transition = 'scale 1.4s linear';
+        }, 100)
+      }, 1400);
   }
-
-  if (time) {
-    clearTimeout(time);
-  }
-
-  // Show the error message
-  errorDiv.style.translate = '0 0';
-  const innerDiv = errorDiv.querySelector('div');
-  innerDiv.style.scale = '0 1';
-
-  time = setTimeout(() => {
-    errorDiv.style.translate = '102% 0';
-    innerDiv.style.transition = 'scale 0ms 30ms';
-    innerDiv.style.scale = '1 1';
-    setTimeout( () => {
-      innerDiv.style.transition = 'scale 1.4s linear';
-    }, 100)
-  }, 1400);
 });
 
 document.querySelectorAll('.date-option div')
@@ -308,7 +305,7 @@ document.querySelectorAll('.date-option div')
 
       const {count, productId} = element.querySelector('input').dataset;
 
-      updateDeliveryOption(productId,count);
+      updateDeliveryOption(productId, count);
 
       cart.forEach(item => {
         document.querySelectorAll('.delivery-date').forEach( one => {

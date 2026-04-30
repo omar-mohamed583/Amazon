@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amazon - Shop The Best Products In Your Country</title>
-    <link rel="stylesheet" href="CSS/orders.css">
+    <link rel="stylesheet" href="CSS/tracking.css">
   </head>
   <body>
 
@@ -29,7 +29,7 @@
                 <img src="https://supersimple.dev/projects/amazon/images/icons/search-icon.png" loading="eager" alt="search-icon">
               </button>
             
-            </div>
+          </div>
     
           <div class="burger-menu" role="button" aria-label="Menu Contains orders Page and Cart Page links">
             <span></span>
@@ -53,29 +53,30 @@
             </a>
           </div>
         </div>
-
-
+        
     </header>
 
     <main>
-
       <div class="container">
 
-        <h2>Your Orders
-          <p>
-            <label for="check">Show Each Order Products</label>
-            <input type="checkbox" id="check" aria-checked="false">
-          </p>
-        </h2>
+        <div class="order-not-found hide">
+  
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="red">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="7" x2="12" y2="13" stroke="white" stroke-width="2"></line>
+            <circle cx="12" cy="17" r="1.5" fill="white" />
+          </svg>
+  
+          <h3>We're sorry</h3>
+          <p>We couldn't track the package you're looking for</p>
+        </div>
 
-        <div class="orders-container">
+        <div class="package-container">
+          
         </div>
       </div>
+    </main>
 
-
-    </main>      
-
-
-    <script type="module" src="JS/order.js" defer></script>
-  </body>
+    <script type="module" src="JS/tracking.js" defer></script>
+</body>
 </html>
