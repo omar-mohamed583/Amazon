@@ -240,7 +240,7 @@ trackBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const {orderId , productId} = btn.dataset;
 
-    window.location.href = `../tracking.html?orderId=${orderId}&productId=${productId}`;
+    window.location.href = `./tracking.html?orderId=${orderId}&productId=${productId}`;
   });
 });
 
