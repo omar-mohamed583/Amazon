@@ -243,6 +243,10 @@ search
     window.location.href = `./?search=${trimmed.split(' ')}`;
   });
 
+searchInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') window.location.href = `./index.html?search=${searchInput.value?.toLowerCase().split(' ').join('+')}`;
+});
+
 if (searchParams) {
   searchItems(searchParams.toLowerCase().split(' ').filter(value => value !== ''));
 } else {

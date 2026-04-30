@@ -174,3 +174,8 @@ search
   .addEventListener('click', () => {
     window.location.href = `./index.html?search=${searchInput.value?.toLowerCase().split(' ').join('+')}`;
   });
+
+searchInput.addEventListener('keydown', e => {
+  console.log(e.key);
+  if (e.key === 'Enter') window.location.href = `./index.html?search=${searchInput.value?.toLowerCase().split(' ').join('+')}`;
+});
